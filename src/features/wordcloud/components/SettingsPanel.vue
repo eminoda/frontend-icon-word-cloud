@@ -24,12 +24,18 @@ const emit = defineEmits<{
 }>()
 
 const selectedSet = computed(() => new Set(props.selectedNames))
+const logoByName = computed(() => new Map(props.logos.map((l) => [l.name, l] as const)))
 const selectedSorted = computed(() => {
   const popularityByName = new Map(props.logos.map((l) => [l.name, l.popularity] as const))
   return [...props.selectedNames].sort(
     (a, b) => (popularityByName.get(b) ?? 0) - (popularityByName.get(a) ?? 0),
   )
 })
+const selectedLogoItems = computed(() =>
+  selectedSorted.value
+    .map((name) => logoByName.value.get(name))
+    .filter((v): v is FrontendLogo => Boolean(v)),
+)
 </script>
 
 <template>
@@ -90,15 +96,15 @@ const selectedSorted = computed(() => {
         <div class="section-title">Selected</div>
         <div class="tag-list" v-if="selectedNames.length">
           <button
-            v-for="name in selectedSorted"
-            :key="name"
+            v-for="l in selectedLogoItems"
+            :key="l.name"
             class="tag"
             type="button"
-            @click="emit('remove', name)"
-            :title="`Remove ${name}`"
+            @click="emit('remove', l.name)"
+            :title="`Remove ${l.name}`"
           >
-            <span class="i-logos" :class="`i-logos-${name}`"></span>
-            <span class="tag-label">{{ name }}</span>
+            <span class="i-logos" :class="`i-logos-${l.name}`"></span>
+            <span v-if="l.isSquare" class="tag-label">{{ l.name }}</span>
             <span class="i-mdi-close"></span>
           </button>
         </div>
@@ -118,7 +124,7 @@ const selectedSorted = computed(() => {
               <span class="logo">
                 <span class="i-logos" :class="`i-logos-${l.name}`"></span>
               </span>
-              <span class="name">{{ l.name }}</span>
+              <span v-if="l.isSquare" class="name">{{ l.name }}</span>
             </label>
             <div class="popularity">{{ l.popularity.toLocaleString() }}</div>
           </li>

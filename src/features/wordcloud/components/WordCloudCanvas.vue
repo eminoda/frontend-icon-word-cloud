@@ -9,7 +9,7 @@ import 'echarts-wordcloud'
 import { wordCloudConfig } from '../config'
 import { colorForName } from '../utils/color'
 
-export type WordCloudItem = { name: string; value: number }
+export type WordCloudItem = { name: string; value: number; color?: string | null }
 export type WordCloudStyleMode = 'random' | 'hv'
 
 const props = defineProps<{
@@ -63,7 +63,7 @@ function setOption() {
         shape: 'circle',
         // 间距更大：gridSize 越大越稀疏
         gridSize: 14,
-        sizeRange: [14, 86],
+        sizeRange: [10, 100],
         rotationRange,
         rotationStep,
         textPadding: 6,
@@ -71,12 +71,16 @@ function setOption() {
         textStyle: {
           fontFamily: 'system-ui, Segoe UI, Roboto, sans-serif',
           fontWeight: 700,
-          color: (p: any) => colorForName(String(p?.name ?? ''), wordCloudConfig.palette),
+          color: (p: any) =>
+            String(p?.data?.color ?? '')
+              ? String(p.data.color)
+              : colorForName(String(p?.name ?? ''), wordCloudConfig.palette),
         },
         emphasis: { focus: 'self' },
         data: data.map((i) => ({
           name: i.name,
           value: i.value,
+          color: i.color ?? null,
         })),
       } as any,
     ],

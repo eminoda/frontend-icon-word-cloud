@@ -1,5 +1,5 @@
 export const wordCloudConfig = {
-  defaultSelectedTopN: 25,
+  defaultSelectedTopN: 50,
   exportPixelRatio: 4,
   backgroundColor: '#16171d',
   palette: [

@@ -5,7 +5,7 @@ import { frontendLogos } from '../../data/logos'
 import { wordCloudConfig } from './config'
 import { useLogoSelection } from './composables/useLogoSelection'
 import SettingsPanel from './components/SettingsPanel.vue'
-import WordCloudDom from './components/WordCloudDom.vue'
+import WordCloudCanvas from './components/WordCloudCanvas.vue'
 
 const panelOpen = shallowRef(false)
 const styleMode = shallowRef<'hv' | 'random'>('hv')
@@ -19,10 +19,10 @@ const visibleLogos = computed(() => selection.filtered.value)
 const cloudItems = computed(() =>
   frontendLogos
     .filter((l) => selection.isSelected(l.name))
-    .map((l) => ({ name: l.name, value: l.popularity })),
+    .map((l) => ({ name: l.name, value: l.popularity, color: l.color })),
 )
 
-const canvasRef = shallowRef<InstanceType<typeof WordCloudDom> | null>(null)
+const canvasRef = shallowRef<InstanceType<typeof WordCloudCanvas> | null>(null)
 
 function togglePanel() {
   panelOpen.value = !panelOpen.value
@@ -74,7 +74,7 @@ async function handleDownload() {
     </header>
 
     <main class="main">
-      <WordCloudDom ref="canvasRef" :items="cloudItems" :style-mode="styleMode" />
+      <WordCloudCanvas ref="canvasRef" :items="cloudItems" :style-mode="styleMode" />
     </main>
 
     <button class="fab" type="button" @click="togglePanel" aria-label="Settings">

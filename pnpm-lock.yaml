@@ -8,18 +8,12 @@ importers:
 
   .:
     dependencies:
-      d3-cloud:
-        specifier: ^1.2.9
-        version: 1.2.9
       echarts:
         specifier: ^5.6.0
         version: 5.6.0
       echarts-wordcloud:
         specifier: ^2.1.0
         version: 2.1.0(echarts@5.6.0)
-      html-to-image:
-        specifier: ^1.11.13
-        version: 1.11.13
       vue:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
@@ -33,9 +27,6 @@ importers:
       '@iconify-json/simple-icons':
         specifier: ^1.2.78
         version: 1.2.78
-      '@types/d3-cloud':
-        specifier: ^1.2.9
-        version: 1.2.9
       '@types/node':
         specifier: ^24.12.2
         version: 24.12.2
@@ -514,12 +505,6 @@ packages:
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
 
-  '@types/d3-cloud@1.2.9':
-    resolution: {integrity: sha512-5EWJvnlCrqTThGp8lYHx+DL00sOjx2HTlXH1WRe93k5pfOIhPQaL63NttaKYIbT7bTXp/USiunjNS/N4ipttIQ==}
-
-  '@types/d3@3.5.53':
-    resolution: {integrity: sha512-8yKQA9cAS6+wGsJpBysmnhlaaxlN42Qizqkw+h2nILSlS+MAG2z4JdO6p+PJrJ+ACvimkmLJL281h157e52psQ==}
-
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
@@ -687,12 +672,6 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  d3-cloud@1.2.9:
-    resolution: {integrity: sha512-leL1GLneC9ZQtnV+6TGWrNlGfI1WX7S2arcTv2vae12DaXo5wjm6GBCkskXbrDlyOymd/A75Pyj1H37MW4BZ/Q==}
-
-  d3-dispatch@1.0.6:
-    resolution: {integrity: sha512-fVjoElzjhCEy+Hbn8KygnmMS7Or0a9sI2UzGwoB7cCtvI1XpVN9GpoYlnb3xt2YV66oXYb1fLJ8GMvP4hdU1RA==}
-
   defu@6.1.7:
     resolution: {integrity: sha512-7z22QmUWiQ/2d0KkdYmANbRUVABpZ9SNYyH5vx6PZ+nE5bcC0l7uFvEfHlyld/HcGBFTL536ClDt3DEcSlEJAQ==}
 
@@ -749,9 +728,6 @@ packages:
   gzip-size@6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
     engines: {node: '>=10'}
-
-  html-to-image@1.11.13:
-    resolution: {integrity: sha512-cuOPoI7WApyhBElTTb9oqsawRvZ0rHhaHwghRLlTuffoD1B2aDemlCruLeZrUIIdvG7gs9xeELEPm6PhuASqrg==}
 
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
@@ -1342,12 +1318,6 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@types/d3-cloud@1.2.9':
-    dependencies:
-      '@types/d3': 3.5.53
-
-  '@types/d3@3.5.53': {}
-
   '@types/estree@1.0.8': {}
 
   '@types/node@24.12.2':
@@ -1596,12 +1566,6 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  d3-cloud@1.2.9:
-    dependencies:
-      d3-dispatch: 1.0.6
-
-  d3-dispatch@1.0.6: {}
-
   defu@6.1.7: {}
 
   destr@2.0.5: {}
@@ -1670,8 +1634,6 @@ snapshots:
   gzip-size@6.0.0:
     dependencies:
       duplexer: 0.1.2
-
-  html-to-image@1.11.13: {}
 
   jiti@2.6.1: {}
 
