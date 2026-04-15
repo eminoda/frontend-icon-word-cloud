@@ -2,10 +2,12 @@
 import { computed } from 'vue'
 
 import type { FrontendLogo } from '../../../data/logos'
+import { defaultLogoNames } from '../../../data/logos'
 import type { WordCloudStyleMode } from './WordCloudCanvas.vue'
 
 const props = defineProps<{
   open: boolean
+  allLogos: FrontendLogo[]
   logos: FrontendLogo[]
   query: string
   selectedNames: string[]
@@ -24,9 +26,9 @@ const emit = defineEmits<{
 }>()
 
 const selectedSet = computed(() => new Set(props.selectedNames))
-const logoByName = computed(() => new Map(props.logos.map((l) => [l.name, l] as const)))
+const logoByName = computed(() => new Map(props.allLogos.map((l) => [l.name, l] as const)))
 const selectedSorted = computed(() => {
-  const popularityByName = new Map(props.logos.map((l) => [l.name, l.popularity] as const))
+  const popularityByName = new Map(props.allLogos.map((l) => [l.name, l.popularity] as const))
   return [...props.selectedNames].sort(
     (a, b) => (popularityByName.get(b) ?? 0) - (popularityByName.get(a) ?? 0),
   )
@@ -36,6 +38,16 @@ const selectedLogoItems = computed(() =>
     .map((name) => logoByName.value.get(name))
     .filter((v): v is FrontendLogo => Boolean(v)),
 )
+
+const listLogos = computed(() => {
+  const q = props.query.trim()
+  if (q) return props.logos
+  const defaultSet = new Set(defaultLogoNames)
+  const defaults = props.allLogos
+    .filter((l) => defaultSet.has(l.name) && !l.name.includes('-icon'))
+    .sort((a, b) => b.popularity - a.popularity)
+  return defaults.length ? defaults : props.logos
+})
 </script>
 
 <template>
@@ -94,27 +106,31 @@ const selectedLogoItems = computed(() =>
 
       <section class="tags">
         <div class="section-title">Selected</div>
-        <div class="tag-list" v-if="selectedNames.length">
-          <button
-            v-for="l in selectedLogoItems"
-            :key="l.name"
-            class="tag"
-            type="button"
-            @click="emit('remove', l.name)"
-            :title="`Remove ${l.name}`"
-          >
-            <span class="i-logos" :class="`i-logos-${l.name}`"></span>
-            <span v-if="l.isSquare" class="tag-label">{{ l.name }}</span>
-            <span class="i-mdi-close"></span>
-          </button>
+        <div class="tag-list-scroll" v-if="selectedNames.length">
+          <div class="tag-list">
+            <button
+              v-for="l in selectedLogoItems"
+              :key="l.name"
+              class="tag"
+              type="button"
+              @click="emit('remove', l.name)"
+              :title="`Remove ${l.name}`"
+            >
+              <span class="i-logos" :class="`i-logos-${l.name}`"></span>
+              <span v-if="l.isSquare" class="tag-label">{{ l.name }}</span>
+              <span class="i-mdi-close"></span>
+            </button>
+          </div>
         </div>
         <div v-else class="muted">No selection.</div>
       </section>
 
       <section class="list">
-        <div class="section-title">All (by popularity)</div>
+        <div class="section-title">
+          {{ query.trim() ? 'All (by popularity)' : 'Default (hot frontend tech)' }}
+        </div>
         <ul class="items">
-          <li v-for="l in logos" :key="l.name" class="row">
+          <li v-for="l in listLogos" :key="l.name" class="row">
             <label class="row-left">
               <input
                 type="checkbox"
@@ -274,6 +290,12 @@ const selectedLogoItems = computed(() =>
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.tag-list-scroll {
+  max-height: 120px;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .tag {

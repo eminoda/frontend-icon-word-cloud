@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
 
-import { frontendLogos } from '../../data/logos'
+import { defaultLogoNames, frontendLogos } from '../../data/logos'
 import { wordCloudConfig } from './config'
 import { useLogoSelection } from './composables/useLogoSelection'
 import SettingsPanel from './components/SettingsPanel.vue'
@@ -12,6 +12,7 @@ const styleMode = shallowRef<'hv' | 'random'>('hv')
 
 const selection = useLogoSelection(frontendLogos, {
   defaultTopN: wordCloudConfig.defaultSelectedTopN,
+  defaultNames: defaultLogoNames,
 })
 
 const visibleLogos = computed(() => selection.filtered.value)
@@ -85,6 +86,7 @@ async function handleDownload() {
 
     <SettingsPanel
       :open="panelOpen"
+      :all-logos="frontendLogos"
       :logos="visibleLogos"
       :query="selection.query.value"
       :selected-names="selection.selectedNames.value"
@@ -151,18 +153,19 @@ async function handleDownload() {
   position: fixed;
   right: 18px;
   bottom: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.16);
-  width: 44px;
-  height: 88px;
-  border-radius: 999px;
-  box-shadow: var(--shadow);
+  border: 0;
+  background: transparent;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
   cursor: pointer;
   color: #ffffff;
 }
 
 .fab:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: transparent;
 }
 
 .fab-inner {

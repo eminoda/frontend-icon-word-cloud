@@ -62,12 +62,12 @@ function setOption() {
         type: 'wordCloud',
         shape: 'circle',
         // 间距更大：gridSize 越大越稀疏
-        gridSize: 14,
-        sizeRange: [10, 100],
+        gridSize: 24,
+        sizeRange: [20, 120],
         rotationRange,
         rotationStep,
-        textPadding: 6,
-        drawOutOfBound: false,
+        textPadding: 18,
+        drawOutOfBound: true,
         textStyle: {
           fontFamily: 'system-ui, Segoe UI, Roboto, sans-serif',
           fontWeight: 700,

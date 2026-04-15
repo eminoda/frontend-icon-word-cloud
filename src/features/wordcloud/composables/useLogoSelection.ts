@@ -2,12 +2,19 @@ import { computed, shallowRef } from 'vue'
 
 import type { FrontendLogo } from '../../../data/logos'
 
-export function useLogoSelection(all: FrontendLogo[], options?: { defaultTopN?: number }) {
+export function useLogoSelection(
+  all: FrontendLogo[],
+  options?: { defaultTopN?: number; defaultNames?: string[] },
+) {
   const defaultTopN = options?.defaultTopN ?? 20
   const allSorted = computed(() => [...all].sort((a, b) => b.popularity - a.popularity))
 
   const selected = shallowRef<Set<string>>(
-    new Set(allSorted.value.slice(0, defaultTopN).map((i) => i.name)),
+    (() => {
+      const names = options?.defaultNames?.filter((n) => !n.includes('-icon')) ?? []
+      if (names.length) return new Set(names)
+      return new Set(allSorted.value.slice(0, defaultTopN).map((i) => i.name))
+    })(),
   )
   const query = shallowRef('')
 

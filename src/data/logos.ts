@@ -1,23 +1,134 @@
-export type FrontendLogo = { name: string; popularity: number; color: string | null; isSquare: boolean }
+export type FrontendLogo = {
+  name: string
+  popularity: number
+  color: string | null
+  isSquare: boolean
+  default?: boolean
+}
 
-export const frontendLogos: FrontendLogo[] = [
+export const defaultLogoNames = [
+  'vue',
+  'react',
+  'angular',
+  'svelte',
+  'nextjs',
+  'nuxt',
+  'react-router',
+  'vite',
+  'webpack',
+  'parcel',
+  'babel',
+  'esbuild',
+  'swc',
+  'typescript',
+  'eslint',
+  'prettier',
+  'postcss',
+  'tailwindcss',
+  'sass',
+  'less',
+  'unocss',
+  'nodejs',
+  'npm',
+  'yarn',
+  'pnpm',
+  'jest',
+  'vitest',
+  'playwright',
+  'cypress',
+  'graphql',
+  'axios',
+  'express',
+  'storybook',
+  'jsdom',
+  'zod',
+]
+
+const defaultLogoNameSet = new Set<string>(defaultLogoNames)
+
+const iconThemeColorOverrides: Record<string, string> = {
+  astro: '#d83333',
+  'astro-icon': '#d83333',
+  atlassian: '#0052cc',
+  'aws-appsync': '#b0084d',
+  'aws-cloudformation': '#b0084d',
+  'aws-cloudsearch': '#4d27a8',
+  'aws-cloudwatch': '#b0084d',
+  'aws-config': '#b0084d',
+  'aws-dynamodb': '#2e27ad',
+  'aws-ec2': '#c8511b',
+  'aws-iam': '#bd0816',
+  'aws-lambda': '#c8511b',
+  'aws-redshift': '#4d27a8',
+  'aws-s3': '#1b660f',
+  'aws-secrets-manager': '#bd0816',
+  'aws-sqs': '#b0084d',
+  bitcoin: '#f9aa4b',
+  brackets: '#29abe2',
+  browserstack: '#797979',
+  discover: '#f34f26',
+  emacs: '#8381c5',
+  fly: '#ba7bf0',
+  'fly-icon': '#ba7bf0',
+  fogbugz: '#ab68fc',
+  forest: '#9bcd98',
+  gitter: '#fb0766',
+  gunicorn: '#959595',
+  horizon: '#e7507e',
+  hyper: '#ffb300',
+  ink: '#db221a',
+  ktor: '#00afff',
+  lateral: '#0d57d9',
+  'lateral-icon': '#0d57d9',
+  airbrake: '#ffa500',
+  macosx: '#58b0e3',
+  manuscript: '#3933ff',
+  malinajs: '#008000',
+  medusa: '#592ee1',
+  messenger: '#0099ff',
+  mlab: '#f8c41b',
+  'neon-icon': '#62f755',
+  neovim: '#16b0ed',
+  pinia: '#52ce63',
+  producthunt: '#da552f',
+  sap: '#00aeef',
+  skype: '#0078d4',
+  'stability-ai': '#9d39ff',
+  'stability-ai-icon': '#9d39ff',
+  swc: '#ffa588',
+  swift: '#faae42',
+  tailwindcss: '#2298bd',
+  telegram: '#2aabee',
+  upcase: '#487bf6',
+  youtrack: '#905cfb',
+  youtube: '#ff0000',
+  'youtube-icon': '#ff0000',
+  zeit: '#ffffff',
+  zigbee: '#dc001f',
+  'zoom-icon': '#0845bf',
+}
+
+const frontendLogosRaw = [
   {
     "name": "chalk",
     "popularity": 1837432374,
     "color": "#ed8a8a",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "postcss",
     "popularity": 853536620,
     "color": "#dd3735",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "typescript",
     "popularity": 687550149,
     "color": "#3178c6",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "typescript-icon",
@@ -29,97 +140,113 @@ export const frontendLogos: FrontendLogo[] = [
     "name": "esbuild",
     "popularity": 669839687,
     "color": "#ffcf00",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "browserslist",
     "popularity": 619033589,
     "color": "#ffd539",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "zod",
     "popularity": 608653475,
     "color": "#274d82",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "lodash",
     "popularity": 571037452,
     "color": "#000",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "yaml",
     "popularity": 563509192,
     "color": "#fff",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "buffer",
     "popularity": 535444841,
     "color": "#26cdd9",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "eslint",
     "popularity": 491473739,
     "color": "#8080f2",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "react",
     "popularity": 482323620,
     "color": "#00d8ff",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "axios",
     "popularity": 417684064,
     "color": "#5a29e4",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "doctrine",
     "popularity": 415710453,
     "color": "#fe8439",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "express",
     "popularity": 394457847,
     "color": "#222",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "fresh",
     "popularity": 372116026,
     "color": "#ffdb1e",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "vite",
     "popularity": 371990419,
     "color": "#7e14ff",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "vitejs",
     "popularity": 371990419,
     "color": "#41D1FF",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "prettier",
     "popularity": 341910221,
     "color": "#d0d4d8",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "tailwindcss",
     "popularity": 330927930,
     "color": "#2d3748",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "tailwindcss-icon",
@@ -131,67 +258,78 @@ export const frontendLogos: FrontendLogo[] = [
     "name": "pnpm",
     "popularity": 270423453,
     "color": "#f9ad00",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "jsdom",
     "popularity": 265768996,
     "color": "#dbc01d",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "xtend",
     "popularity": 253016540,
     "color": "#d93b26",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "autoprefixer",
     "popularity": 252527130,
     "color": "#dd3835",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "chai",
     "popularity": 248262413,
     "color": "#a1070c",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "jest",
     "popularity": 188107295,
     "color": "#99425b",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "webpack",
     "popularity": 185234199,
     "color": "#fff",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "vitest",
     "popularity": 184828492,
     "color": "#729b1b",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "playwright",
     "popularity": 184484501,
     "color": "#2d4552",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "react-router",
     "popularity": 184053608,
     "color": "#d0021b",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "immer",
     "popularity": 177860224,
     "color": "#00e7c3",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "immer-icon",
@@ -203,31 +341,36 @@ export const frontendLogos: FrontendLogo[] = [
     "name": "nextjs",
     "popularity": 171897945,
     "color": "#26c1d9",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "immutable",
     "popularity": 156665410,
     "color": "#fc4349",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "progress",
     "popularity": 152299846,
     "color": "#5ce500",
-    "isSquare": true
+    "isSquare": true,
+    "default": true
   },
   {
     "name": "handlebars",
     "popularity": 150808288,
     "color": "#423426",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "json-schema",
     "popularity": 146294969,
     "color": "#002cc4",
-    "isSquare": false
+    "isSquare": false,
+    "default": true
   },
   {
     "name": "json-schema-icon",
@@ -8684,3 +8827,9 @@ export const frontendLogos: FrontendLogo[] = [
     "isSquare": true
   }
 ] as const
+
+export const frontendLogos: FrontendLogo[] = frontendLogosRaw.map((l) => ({
+  ...l,
+  default: defaultLogoNameSet.has(l.name) && !l.name.includes('-icon'),
+  color: iconThemeColorOverrides[l.name] ?? l.color,
+}))
