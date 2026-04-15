@@ -54,6 +54,15 @@ async function handleDownload() {
     <header class="header">
       <nav class="brand-links" aria-label="Links">
         <a
+          class="brand-link brand-link-bilibili"
+          href="https://space.bilibili.com/11915251"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Bilibili"
+        >
+          <span class="i-si-bilibili"></span>
+        </a>
+        <a
           class="brand-link"
           href="http://github.com/eminoda/frontend-icon-word-cloud"
           target="_blank"
@@ -62,27 +71,15 @@ async function handleDownload() {
         >
           <span class="i-si-github"></span>
         </a>
-        <a
-          class="brand-link"
-          href="https://space.bilibili.com/11915251"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Bilibili"
-        >
-          <span class="i-si-bilibili"></span>
-        </a>
+        <button class="brand-link brand-btn" type="button" @click="togglePanel" aria-label="Settings">
+          <span class="i-mdi-cog"></span>
+        </button>
       </nav>
     </header>
 
     <main class="main">
       <WordCloudCanvas ref="canvasRef" :items="cloudItems" :style-mode="styleMode" />
     </main>
-
-    <button class="fab" type="button" @click="togglePanel" aria-label="Settings">
-      <span class="fab-inner">
-        <span class="i-mdi-cog"></span>
-      </span>
-    </button>
 
     <SettingsPanel
       :open="panelOpen"
@@ -135,6 +132,10 @@ async function handleDownload() {
   text-decoration: none;
 }
 
+.brand-link-bilibili {
+  color: #fb7299;
+}
+
 .brand-link:hover {
   border-color: rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.12);
@@ -149,30 +150,9 @@ async function handleDownload() {
   display: flex;
 }
 
-.fab {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  border: 0;
-  background: transparent;
-  width: auto;
-  height: auto;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;
+.brand-btn {
   cursor: pointer;
-  color: #ffffff;
-}
-
-.fab:hover {
-  background: transparent;
-}
-
-.fab-inner {
-  height: 100%;
-  display: grid;
-  place-items: center;
-  font-size: 20px;
+  padding: 0;
 }
 </style>
 
