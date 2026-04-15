@@ -154,5 +154,12 @@ async function handleDownload() {
   cursor: pointer;
   padding: 0;
 }
+
+.brand-btn :deep(.i-mdi-cog) {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  display: block;
+}
 </style>
 
