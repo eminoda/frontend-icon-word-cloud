@@ -10,6 +10,8 @@ import WordCloudCanvas from './components/WordCloudCanvas.vue'
 const panelOpen = shallowRef(false)
 const styleMode = shallowRef<'hv' | 'random'>('hv')
 const cloudRefreshKey = shallowRef(0)
+const refreshBackgroundColors = ['#ffffff', '#000000', '#2563eb', '#f59e0b'] as const
+const backgroundColorIndex = shallowRef(-1)
 
 const selection = useLogoSelection(frontendLogos, {
   defaultTopN: wordCloudConfig.defaultSelectedTopN,
@@ -17,6 +19,11 @@ const selection = useLogoSelection(frontendLogos, {
 })
 
 const visibleLogos = computed(() => selection.filtered.value)
+const cloudBackgroundColor = computed(() =>
+  backgroundColorIndex.value < 0
+    ? wordCloudConfig.backgroundColor
+    : refreshBackgroundColors[backgroundColorIndex.value],
+)
 
 const cloudItems = computed(() =>
   frontendLogos
@@ -35,6 +42,7 @@ function closePanel() {
 }
 
 function refreshCloud() {
+  backgroundColorIndex.value = (backgroundColorIndex.value + 1) % refreshBackgroundColors.length
   cloudRefreshKey.value += 1
 }
 
@@ -90,6 +98,7 @@ async function handleDownload() {
         :key="cloudRefreshKey"
         ref="canvasRef"
         :items="cloudItems"
+        :background-color="cloudBackgroundColor"
         :style-mode="styleMode"
       />
     </main>
