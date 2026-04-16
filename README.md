@@ -5,7 +5,7 @@
 
 While learning `unocss`, I came across the online icon library [@iconify-json](https://icones.js.org/), which contains a large collection of icons, including many logos from the frontend ecosystem. That inspired the idea of using AI to turn these logos into a word cloud.
 
-[中文说明](./README_ZH.md)
+[中文说明](./README_ZH.md) | [Live Demo](https://eminoda.github.io/frontend-icon-word-cloud/)
 
 ![Frontend Word Cloud](./frontend-wordcloud.png)   
 
