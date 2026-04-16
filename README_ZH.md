@@ -4,6 +4,10 @@
 
 在学习 `unocss` 时，看到了 [@iconify-json](https://icones.js.org/) 这个在线图标库，其中收集了大量的图标，包括前端生态的 Logo，于是想到了一个 idea，借助 AI 将这些 Logo 生成词云。
 
+[English](./README.md)
+
+![Frontend Word Cloud](./frontend-wordcloud.png)
+
 
 ## Feature
 
