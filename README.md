@@ -1,16 +1,18 @@
-# 前端Logo词云 frontend-icon-word-cloud
+# Frontend Logo Word Cloud
 
-## 契机
+[中文说明](./README_ZH.md)
 
-在学习 `unocss` 时，看到了 [@iconify-json](https://icones.js.org/) 这个在线图标库，其中收集了大量的图标，包括前端生态的 Logo，于是想到了一个 idea，借助 AI 将这些 Logo 生成词云。
+## Background
+
+While learning `unocss`, I came across the online icon library [@iconify-json](https://icones.js.org/), which contains a large collection of icons, including many logos from the frontend ecosystem. That inspired the idea of using AI to turn these logos into a word cloud.
 
 
 ## Feature
 
-- 展示前端技术栈词云
-- 支持壁纸下载
+- Display a word cloud of frontend technologies
+- Support wallpaper download
 
-## 感谢
+## Thanks
 
 - [@iconify-json](https://icones.js.org/)
 - [echarts-wordcloud](https://github.com/ecomfe/echarts-wordcloud)
