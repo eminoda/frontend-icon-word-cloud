@@ -9,6 +9,7 @@ import WordCloudCanvas from './components/WordCloudCanvas.vue'
 
 const panelOpen = shallowRef(false)
 const styleMode = shallowRef<'hv' | 'random'>('hv')
+const cloudRefreshKey = shallowRef(0)
 
 const selection = useLogoSelection(frontendLogos, {
   defaultTopN: wordCloudConfig.defaultSelectedTopN,
@@ -31,6 +32,10 @@ function togglePanel() {
 
 function closePanel() {
   panelOpen.value = false
+}
+
+function refreshCloud() {
+  cloudRefreshKey.value += 1
 }
 
 function downloadFile(dataUrl: string, filename: string) {
@@ -71,14 +76,22 @@ async function handleDownload() {
         >
           <span class="i-si-github"></span>
         </a>
-        <button class="brand-link brand-btn" type="button" @click="togglePanel" aria-label="Settings">
+        <button class="brand-link brand-btn action-btn" type="button" @click="togglePanel" aria-label="Settings">
           <span class="i-mdi-cog"></span>
+        </button>
+        <button class="brand-link brand-btn action-btn" type="button" @click="refreshCloud" aria-label="Refresh layout">
+          <span class="i-mdi-refresh"></span>
         </button>
       </nav>
     </header>
 
     <main class="main">
-      <WordCloudCanvas ref="canvasRef" :items="cloudItems" :style-mode="styleMode" />
+      <WordCloudCanvas
+        :key="cloudRefreshKey"
+        ref="canvasRef"
+        :items="cloudItems"
+        :style-mode="styleMode"
+      />
     </main>
 
     <SettingsPanel
@@ -155,11 +168,25 @@ async function handleDownload() {
   padding: 0;
 }
 
+.action-btn {
+  width: 30px;
+  height: 30px;
+}
+
 .brand-btn :deep(.i-mdi-cog) {
-  width: 18px;
-  height: 18px;
-  font-size: 18px;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
   display: block;
+  line-height: 1;
+}
+
+.brand-btn :deep(.i-mdi-refresh) {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  display: block;
+  line-height: 1;
 }
 </style>
 

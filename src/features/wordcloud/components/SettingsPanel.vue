@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import type { FrontendLogo } from '../../../data/logos'
 import { defaultLogoNames } from '../../../data/logos'
+import type { FrontendLogo } from '../../../data/logos'
 import type { WordCloudStyleMode } from './WordCloudCanvas.vue'
 
 const props = defineProps<{
@@ -20,33 +20,27 @@ const emit = defineEmits<{
   updateQuery: [value: string]
   updateStyleMode: [value: WordCloudStyleMode]
   toggle: [payload: { name: string; value: boolean }]
-  remove: [name: string]
   clear: []
   download: []
 }>()
 
 const selectedSet = computed(() => new Set(props.selectedNames))
-const logoByName = computed(() => new Map(props.allLogos.map((l) => [l.name, l] as const)))
-const selectedSorted = computed(() => {
-  const popularityByName = new Map(props.allLogos.map((l) => [l.name, l.popularity] as const))
-  return [...props.selectedNames].sort(
-    (a, b) => (popularityByName.get(b) ?? 0) - (popularityByName.get(a) ?? 0),
-  )
-})
-const selectedLogoItems = computed(() =>
-  selectedSorted.value
-    .map((name) => logoByName.value.get(name))
-    .filter((v): v is FrontendLogo => Boolean(v)),
-)
-
+const defaultSet = new Set(defaultLogoNames)
+const defaultOrder = new Map(defaultLogoNames.map((name, index) => [name, index]))
 const listLogos = computed(() => {
   const q = props.query.trim()
   if (q) return props.logos
-  const defaultSet = new Set(defaultLogoNames)
-  const defaults = props.allLogos
-    .filter((l) => defaultSet.has(l.name) && !l.name.includes('-icon'))
-    .sort((a, b) => b.popularity - a.popularity)
-  return defaults.length ? defaults : props.logos
+
+  return [...props.allLogos].sort((a, b) => {
+    const defaultDiff = Number(defaultSet.has(b.name)) - Number(defaultSet.has(a.name))
+    if (defaultDiff !== 0) return defaultDiff
+
+    if (defaultSet.has(a.name) && defaultSet.has(b.name)) {
+      return (defaultOrder.get(a.name) ?? Number.MAX_SAFE_INTEGER) - (defaultOrder.get(b.name) ?? Number.MAX_SAFE_INTEGER)
+    }
+
+    return b.popularity - a.popularity
+  })
 })
 </script>
 
@@ -104,47 +98,27 @@ const listLogos = computed(() => {
         </div>
       </section>
 
-      <section class="tags">
-        <div class="section-title">Selected</div>
-        <div class="tag-list-scroll" v-if="selectedNames.length">
+      <section class="list">
+        <div class="section-title">
+          {{ query.trim() ? '搜索结果' : '前端流行库' }}
+        </div>
+        <div class="tag-list-scroll">
           <div class="tag-list">
             <button
-              v-for="l in selectedLogoItems"
+              v-for="l in listLogos"
               :key="l.name"
-              class="tag"
+              class="selected-tag library-tag"
+              :class="{ active: selectedSet.has(l.name), 'icon-only-tag': !l.isSquare }"
               type="button"
-              @click="emit('remove', l.name)"
-              :title="`Remove ${l.name}`"
+              @click="emit('toggle', { name: l.name, value: !selectedSet.has(l.name) })"
             >
-              <span class="i-logos" :class="`i-logos-${l.name}`"></span>
+              <span class="logo tag-logo">
+                <span class="i-logos" :class="`i-logos-${l.name}`"></span>
+              </span>
               <span v-if="l.isSquare" class="tag-label">{{ l.name }}</span>
-              <span class="i-mdi-close"></span>
             </button>
           </div>
         </div>
-        <div v-else class="muted">No selection.</div>
-      </section>
-
-      <section class="list">
-        <div class="section-title">
-          {{ query.trim() ? 'All (by popularity)' : 'Default (hot frontend tech)' }}
-        </div>
-        <ul class="items">
-          <li v-for="l in listLogos" :key="l.name" class="row">
-            <label class="row-left">
-              <input
-                type="checkbox"
-                :checked="selectedSet.has(l.name)"
-                @change="emit('toggle', { name: l.name, value: ($event.target as HTMLInputElement).checked })"
-              />
-              <span class="logo">
-                <span class="i-logos" :class="`i-logos-${l.name}`"></span>
-              </span>
-              <span v-if="l.isSquare" class="name">{{ l.name }}</span>
-            </label>
-            <div class="popularity">{{ l.popularity.toLocaleString() }}</div>
-          </li>
-        </ul>
       </section>
     </aside>
   </div>
@@ -165,24 +139,26 @@ const listLogos = computed(() => {
 
 .panel {
   position: absolute;
-  right: 16px;
-  bottom: 80px;
-  width: min(520px, calc(100vw - 32px));
-  max-height: min(720px, calc(100vh - 120px));
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, calc(100vw - 24px));
+  height: 100vh;
   background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  border-left: 1px solid var(--border);
   box-shadow: var(--shadow);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform: translateX(0);
 }
 
 .panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 12px 10px;
+  padding: 16px 16px 12px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -205,8 +181,9 @@ const listLogos = computed(() => {
 
 .panel-toolbar {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  padding: 12px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--border);
   align-items: center;
 }
@@ -234,9 +211,11 @@ const listLogos = computed(() => {
 .toolbar-actions {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 
 .btn {
+  flex: 1 1 0;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text-h);
@@ -254,10 +233,16 @@ const listLogos = computed(() => {
   color: var(--text-h);
 }
 
-.tags,
 .style,
 .list {
-  padding: 12px;
+  padding: 14px 16px;
+}
+
+.list {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .segmented {
@@ -293,58 +278,71 @@ const listLogos = computed(() => {
 }
 
 .tag-list-scroll {
-  max-height: 120px;
-  overflow: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 4px;
 }
 
-.tag {
+.selected-tag {
   border: 1px solid var(--border);
   background: rgba(0, 0, 0, 0.15);
   color: var(--text-h);
-  border-radius: 999px;
-  padding: 6px 10px;
+  border-radius: 4px;
+  padding: 8px 12px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
+.icon-only-tag {
+  width: 90px;
+  height: 36px;
+  justify-content: center;
+  padding: 0;
+  flex: 0 0 90px;
+  position: relative;
+}
+
+.library-tag.active {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: #ffffff;
+  color: #111111;
+}
+
 .tag-label {
   font-size: 13px;
+  line-height: 1;
 }
 
-.muted {
-  color: var(--text);
-  opacity: 0.8;
-  font-size: 13px;
+.tag-logo {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
 }
 
-.items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  overflow: auto;
-  max-height: 360px;
+.tag-logo :deep(.i-logos) {
+  display: block;
+  width: 100%;
+  height: 18px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 6px;
-  border-radius: 10px;
+.icon-only-tag .tag-logo {
+  width: 100%;
+  height: 100%;
+  padding: 6px 10px;
+  box-sizing: border-box;
 }
 
-.row:hover {
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.row-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
+.icon-only-tag .tag-logo :deep(.i-logos) {
+  height: 100%;
 }
 
 .logo {
@@ -359,10 +357,18 @@ const listLogos = computed(() => {
   font-size: 14px;
 }
 
-.popularity {
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-  font-size: 13px;
+@media (max-width: 640px) {
+  .panel {
+    width: 100vw;
+  }
+
+  .panel-toolbar {
+    gap: 12px;
+  }
+
+  .toolbar-actions {
+    flex-direction: column;
+  }
 }
 </style>
 

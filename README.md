@@ -1,5 +1,17 @@
-# Vue 3 + TypeScript + Vite
+# 前端Logo词云 frontend-icon-word-cloud
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 契机
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+在学习 `unocss` 时，看到了 [@iconify-json](https://icones.js.org/) 这个在线图标库，其中收集了大量的图标，包括前端生态的 Logo，于是想到了一个 idea，借助 AI 将这些 Logo 生成词云。
+
+
+## Feature
+
+- 展示前端技术栈词云
+- 支持壁纸下载
+
+## 感谢
+
+- [@iconify-json](https://icones.js.org/)
+- [echarts-wordcloud](https://github.com/ecomfe/echarts-wordcloud)
+- [unocss](https://unocss.dev/)
